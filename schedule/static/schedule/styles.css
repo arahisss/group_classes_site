@@ -1,0 +1,46 @@
+.image-title {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+    text-align: center;
+    color: #ffffff;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+
+}
+
+.content {
+    display: flex;
+    margin-top: 50px;
+}
+
+.image-block {
+
+    display: flex;
+
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.image-block img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    background-size: cover;
+    background-position: center center;
+    opacity: 0.8;
+}
+
+.logo {
+    width: 20px;
+    height: 50px;
+}
+
+/* .auth-form {
+    background-image: url("webdesign2.jpg");
+    padding-bottom: 20%;
+     opacity: 0.7;/
+ background-size: cover; 
+} 
