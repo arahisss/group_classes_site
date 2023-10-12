@@ -1,7 +1,7 @@
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.template import loader
-# from .models import User
+from .models import Lesson
 
 
 def index(request):
@@ -15,7 +15,7 @@ def auth(request):
 def signup(request):
     return render(request, "signup.html")
 
-# def schedule(request):
-#     users = User.objects.all()
-#
-#     return render(request, 'schedule.html', {'users': users})
+
+def schedule(request):
+    lessons = Lesson.objects.all()
+    return render(request, 'schedule.html', {'lessons': lessons})
