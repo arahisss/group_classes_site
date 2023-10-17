@@ -11,6 +11,8 @@ class Lesson(models.Model):
     day_of_week = models.CharField(max_length=30, null=True, verbose_name='День недели')
     teacher_id = models.IntegerField(null=True, verbose_name='id учителя')
 
+    # teacher_id = models.ForeignKey('User', null=True, on_delete=models.PROTECT, verbose_name='id учителя')
+
     class Meta:
         verbose_name_plural = 'Занятия'
         verbose_name = 'Занятие'

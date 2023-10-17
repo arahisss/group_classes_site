@@ -38,6 +38,10 @@
     height: 50px;
 }
 
+input {
+    width: 400px;
+}
+
 /* .auth-form {
     background-image: url("webdesign2.jpg");
     padding-bottom: 20%;

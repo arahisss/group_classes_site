@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+    {% if messages %}
+        	{% for message in messages %}
+          	<div class="alert alert-{{ message.tags }}">
+            	{{ message }}
+          	</div>
+        	{% endfor %}
+    {% endif %}
+
+    {% block content %}
+    <div class="auth-form">
+        <div class="d-flex align-items-center py-3 mx-auto flex-column">
+            <h3>Регистрация</h3>
+            <form method="post" class="d-flex px-5 pt-3 pb-2 align-items-center flex-column">
+                {% csrf_token %}
+
+                {% for f in form %}
+                <div class="mb-2">
+                    <label for="{{ f.id_for_label }}" class="form-label">{{ f.label }}</label>
+                    {{ f }}
+                </div>
+                    <div id="emailHelp" class="form-text">{{ f.errors }}</div>
+
+                {% endfor %}
+            <button type="submit" class="btn btn-primary mt-2 text-center">Зарегистрироваться</button>
+
+            </form>
+
+        </div>
+    </div>
+    {% endblock %}
+
+{% block footer %}
+{% endblock %}
