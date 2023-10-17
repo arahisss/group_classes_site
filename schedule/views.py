@@ -1,3 +1,4 @@
+from django.contrib.auth import logout, login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView
@@ -40,6 +41,11 @@ class RegisterUser(CreateView):
         context = super().get_context_data(**kwargs)
         return context
 
+    def form_valid(self, form):
+        user = form.save()
+        login(self.request, user)
+        return redirect('schedule')
+
 
 class LoginUser(LoginView):
     form_class = LoginUserForm
@@ -51,6 +57,11 @@ class LoginUser(LoginView):
 
     def get_success_url(self):
         return reverse_lazy('schedule')
+
+
+def logout_user(request):
+    logout(request)
+    return redirect('login')
 
 
 @login_required

@@ -32,12 +32,16 @@
                 <li><a href="#" class="nav-link px-2 link-secondary">Home</a></li>
                 <li><a href="#" class="nav-link px-2">Features</a></li>
             </ul>
-
+            {% if request.user.is_authenticated %}
+             <div class="col-md-3 text-end">
+                <a href="{% url 'logout' %}"><button type="button" class="btn btn-outline-primary me-2">Выйти</button></a>
+            </div>
+            {% else %}
             <div class="col-md-3 text-end">
                 <a href="{% url 'login' %}"><button type="button" class="btn btn-outline-primary me-2">Вход</button></a>
                 <a href="{% url 'register' %}"><button type="button" class="btn btn-primary me-2">Регистрация</button></a>
-
             </div>
+            {% endif %}
         </header>
     </div>
 

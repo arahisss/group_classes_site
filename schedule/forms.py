@@ -22,6 +22,7 @@ class LoginUserForm(AuthenticationForm):
 
 
 class RegisterUserForm(UserCreationForm):
+    username = forms.CharField(label='Логин', widget=forms.TextInput(attrs={'class': 'form-control', 'style': 'width: 300px;'}))
     email = forms.CharField(label='Email', widget=forms.TextInput(attrs={'class': 'form-control', 'style': 'width: 300px;'}))
     first_name = forms.CharField(label='Имя', widget=forms.TextInput(attrs={'class': 'form-control', 'style': 'width: 300px;'}))
     last_name = forms.CharField(label='Фамилия', widget=forms.TextInput(attrs={'class': 'form-control', 'style': 'width: 300px;'}))
@@ -30,5 +31,5 @@ class RegisterUserForm(UserCreationForm):
 
     class Meta:
         model = User
-        fields = ('email', 'first_name', 'last_name', 'password1', 'password2')
+        fields = ('username', 'email', 'first_name', 'last_name', 'password1', 'password2')
 
