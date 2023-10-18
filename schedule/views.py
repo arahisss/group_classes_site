@@ -12,16 +12,22 @@ from django.views.generic.edit import CreateView
 from .forms import LessonForm
 from django.contrib import messages
 from .forms import LoginUserForm
+from datetime import datetime, timedelta
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 
-# class LessonCreateView(CreateView):
-#     template_name = 'schedule/create.html'
-#     form_class = LessonForm
-#     success_url = '/schedule/'
-#
-#     def get_context_data(self, **kwargs):
-#         context = super().get_context_data(**kwargs)
-#         context[]
+class AddLesson(LoginRequiredMixin, CreateView):
+    template_name = 'add_lesson.html'
+    form_class = LessonForm
+    success_url = reverse_lazy('schedule')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
+
+    def form_valid(self, form):
+        form.instance.teacher_id = self.request.user
+        return super().form_valid(form)
 
 
 def index(request):
@@ -66,8 +72,32 @@ def logout_user(request):
 
 @login_required
 def schedule(request):
-    lessons = Lesson.objects.all()
-    return render(request, 'schedule.html', {'lessons': lessons})
+    start_date = datetime.now().date()
+    while start_date.weekday() != 0:
+        start_date = start_date - timedelta(days=1)
+
+    lessons = Lesson.objects.filter(data__gte=start_date).order_by('data', 'time')
+    dates = set()
+
+    for i in lessons:
+        dates.add(i.data)
+
+    weeks = []
+    cur_week = []
+    k = 0
+    for i in sorted(dates):
+        if k >= 5:
+            weeks.append(cur_week)
+            cur_week = []
+            k = 0
+        cur_week.append(i)
+        k += 1
+
+    weeks.append(cur_week)
+    active = weeks[0]
+    del weeks[0]
+
+    return render(request, 'schedule.html', {'lessons': lessons, 'weeks': weeks, 'active': active, 'dates': sorted(dates)})
 
 
 def page_not_found(request, exception):

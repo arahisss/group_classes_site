@@ -7,9 +7,25 @@ from .models import Lesson
 
 
 class LessonForm(ModelForm):
+    title = forms.CharField(label='Урок', widget=forms.TextInput(attrs={'class': 'form-control', 'style': 'width: 300px;'}))
+    description = forms.CharField(label='Описание', widget=forms.Textarea(attrs={'class': 'form-control', 'style': 'width: 300px;', 'rows': 5}))
+    time = forms.CharField(label='Время', widget=forms.TextInput(attrs={'class': 'form-control', 'style': 'width: 300px;'}))
+    data = forms.DateField(label='Дата', widget=forms.TextInput(attrs={'class': 'form-control', 'style': 'width: 300px;'}))
+
     class Meta:
         model = Lesson
-        fields = ('title', 'description', 'time', 'data', 'day_of_week')
+        fields = ('title', 'description', 'time', 'data')
+
+    # def __init__(self, *args, **kwargs):
+    #     self.user = kwargs.pop('user', None)
+    #     super(Lesson).__init__(*args, **kwargs)
+    #
+    # def save(self, commit=True):
+    #     instance = super(Lesson).save(commit=False)
+    #     instance.user = self.user
+    #     if commit:
+    #         instance.save()
+    #     return instance
 
 
 class LoginUserForm(AuthenticationForm):

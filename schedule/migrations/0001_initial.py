@@ -19,7 +19,6 @@ class Migration(migrations.Migration):
                 ('description', models.TextField(blank=True, null=True)),
                 ('time', models.TimeField(db_index=True)),
                 ('data', models.DateField(db_index=True)),
-                ('day_of_week', models.CharField(max_length=30, null=True)),
                 ('teacher_id', models.IntegerField(null=True)),
             ],
         ),

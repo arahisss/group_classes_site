@@ -20,7 +20,7 @@
 
 <body>
     <div class="container">
-        <header
+        <ul
             class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-2 border-bottom">
             <div class="col-md-3 mb-2 mb-md-0">
                 <a href="{% url 'home' %}" class="d-inline-flex link-body-emphasis text-decoration-none">
@@ -29,14 +29,20 @@
             </div>
 
             <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
-                <li><a href="#" class="nav-link px-2 link-secondary">Home</a></li>
-                <li><a href="#" class="nav-link px-2">Features</a></li>
-            </ul>
+                <li><a href="{% url 'home' %}" class="nav-link px-2 link-secondary">Главная</a></li>
+
             {% if request.user.is_authenticated %}
+                    <li><a href="{% url 'schedule' %}" class="nav-link px-2">Расписание</a></li>
+                    <li><a href="#" class="nav-link px-2">Мое расписание</a></li>
+                    <li><a href="{% url 'add_lesson' %}" class="nav-link px-2">Добавить занятие</a></li>
+
+                </ul>
+
              <div class="col-md-3 text-end">
                 <a href="{% url 'logout' %}"><button type="button" class="btn btn-outline-primary me-2">Выйти</button></a>
             </div>
             {% else %}
+                </ul>
             <div class="col-md-3 text-end">
                 <a href="{% url 'login' %}"><button type="button" class="btn btn-outline-primary me-2">Вход</button></a>
                 <a href="{% url 'register' %}"><button type="button" class="btn btn-primary me-2">Регистрация</button></a>
