@@ -97,7 +97,8 @@ def schedule(request):
     active = weeks[0]
     del weeks[0]
 
-    return render(request, 'schedule.html', {'lessons': lessons, 'weeks': weeks, 'active': active, 'dates': sorted(dates)})
+    return render(request, 'schedule.html', {'lessons': lessons, 'weeks': weeks,
+                                             'active': active, 'dates': sorted(dates)})
 
 
 def page_not_found(request, exception):

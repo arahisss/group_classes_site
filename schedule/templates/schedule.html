@@ -1,33 +1,34 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <!-- Кнопка-триггер модального окна -->
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-              Запустите демо модального окна
-            </button>
-            <script>
-                var myModal = document.getElementById('myModal')
-                var myInput = document.getElementById('myInput')
-
-                myModal.addEventListener('shown.bs.modal', function () {
-                  myInput.focus()
-                })
-            </script>
-
             <!-- Модальное окно -->
             <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
               <div class="modal-dialog">
                 <div class="modal-content">
                   <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Заголовок модального окна</h5>
+                    <h4 class="modal-title" id="exampleModalLabel">Запись за занятие</h4>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
                   </div>
                   <div class="modal-body">
-                    ...
+                    <h5 id="lesson-title"></h5>
+                    <p id="lesson-description"></p>
+                      <p><span><strong>Дата: </strong></span><span id="lesson-date"></span></p>
+                      <p><span><strong>Время: </strong></span><span id="lesson-time"></span></p>
+
+{#                      <p><h6>Время: </h6><mark id="lesson-time"></mark></p>#}
+
+                    <p id="lesson-time"></p>
+                      <p>
+                          <span><strong>Учитель: </strong></span>
+                          <span id="lesson-first_name"></span>
+                        <span id="lesson-last_name"></span>
+                      </p>
+
+
                   </div>
                   <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
-                    <button type="button" class="btn btn-primary">Сохранить изменения</button>
+                    <button type="button" class="btn btn-primary">Записаться</button>
                   </div>
                 </div>
               </div>
@@ -42,19 +43,19 @@
                     <div class="cards d-flex justify-content-space-between m-5">
                         {% for date in active %}
                         <div class="card m-1" style="width: 18rem;">
-                            <div class="card-header d-flex flex-column align-items-center bg-primary-subtle">
+                            <div class="card-header d-flex flex-column align-items-center bg-success-subtle">
                                 {% if date.weekday == 0 %}
-                                    <h5 class="card-title ">Пн</h5>
+                                    <h5 class="card-title">Пн</h5>
                                 {% elif date.weekday == 1 %}
-                                    <h5 class="card-title ">Вт</h5>
+                                    <h5 class="card-title">Вт</h5>
                                 {% elif date.weekday == 2 %}
-                                    <h5 class="card-title ">Ср</h5>
+                                    <h5 class="card-title">Ср</h5>
                                 {% elif date.weekday == 3 %}
-                                    <h5 class="card-title ">Чт</h5>
+                                    <h5 class="card-title">Чт</h5>
                                 {% elif date.weekday == 4 %}
-                                    <h5 class="card-title ">Пт</h5>
+                                    <h5 class="card-title">Пт</h5>
                                 {% elif date.weekday == 5 %}
-                                    <h5 class="card-title ">Сб</h5>
+                                    <h5 class="card-title">Сб</h5>
                                 {% endif %}
                                 <h5 class="card-subtitle mb-2 text-body-secondary">{{ date }}</h5>
                             </div>
@@ -62,7 +63,11 @@
                             <ul class="list-group list-group-flush">
                             {% for lesson in lessons %}
                                 {% if lesson.data == date %}
-                                <li class="list-group-item">{{ lesson.time}} <a href="#">{{ lesson.title }}</a></li>
+                                <li class="list-group-item list-group-item-action list-group-item-light" data-lesson-title="{{ lesson.title }}"
+                                    data-lesson-description="{{ lesson.description }}" data-lesson-date="{{ lesson.data }}"
+                                    data-lesson-time="{{ lesson.time }}" data-lesson-first_name="{{ lesson.teacher_id.first_name }}"
+                                    data-lesson-last_name="{{ lesson.teacher_id.last_name }}" data-bs-toggle="modal"
+                                    data-bs-target="#exampleModal">{{ lesson.time}}   {{ lesson.title }}</li>
                                 {% endif %}
                             {% endfor %}
                             </ul>
@@ -73,7 +78,36 @@
 
                 </div>
 
+            <script>
+              document.addEventListener('DOMContentLoaded', function() {
+                let lessonItems = document.querySelectorAll('.list-group-item');
+                let lessonTitle = document.getElementById('lesson-title');
+                let lessonDescription = document.getElementById('lesson-description');
+                let lessonDate = document.getElementById('lesson-date');
+                let lessonTime = document.getElementById('lesson-time');
+                let lessonFirstName = document.getElementById('lesson-first_name');
+                let lessonLastName = document.getElementById('lesson-last_name');
 
+
+                lessonItems.forEach(function(item) {
+                  item.addEventListener('click', function() {
+                    let title = this.getAttribute('data-lesson-title');
+                    let description = this.getAttribute('data-lesson-description');
+                    let date = this.getAttribute('data-lesson-date');
+                    let time = this.getAttribute('data-lesson-time');
+                    let first_name = this.getAttribute('data-lesson-first_name');
+                    let last_name = this.getAttribute('data-lesson-last_name');
+
+                    lessonTitle.textContent = title;
+                    lessonDescription.textContent = description
+                    lessonDate.textContent = date
+                    lessonTime.textContent = time
+                    lessonFirstName.textContent = first_name
+                    lessonLastName.textContent = last_name
+                  });
+                });
+              });
+            </script>
             {% for week in weeks %}
                 <div class="carousel-item">
 
