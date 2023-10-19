@@ -3,7 +3,7 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from django.forms import ModelForm
 
-from .models import Lesson
+from .models import *
 
 
 class LessonForm(ModelForm):
@@ -16,16 +16,13 @@ class LessonForm(ModelForm):
         model = Lesson
         fields = ('title', 'description', 'time', 'data')
 
-    # def __init__(self, *args, **kwargs):
-    #     self.user = kwargs.pop('user', None)
-    #     super(Lesson).__init__(*args, **kwargs)
-    #
-    # def save(self, commit=True):
-    #     instance = super(Lesson).save(commit=False)
-    #     instance.user = self.user
-    #     if commit:
-    #         instance.save()
-    #     return instance
+
+class LessonUserForm(ModelForm):
+    lesson = forms.CharField(label='Урок', widget=forms.TextInput(attrs={'class': 'form-control', 'style': 'width: 300px;', 'data-lesson': ''}))
+
+    class Meta:
+        model = LessonUser
+        fields = ('user', 'lesson',)
 
 
 class LoginUserForm(AuthenticationForm):
@@ -44,8 +41,9 @@ class RegisterUserForm(UserCreationForm):
     last_name = forms.CharField(label='Фамилия', widget=forms.TextInput(attrs={'class': 'form-control', 'style': 'width: 300px;'}))
     password1 = forms.CharField(label='Пароль', widget=forms.PasswordInput(attrs={'class': 'form-control', 'style': 'width: 300px;'}))
     password2 = forms.CharField(label='Повтор пароля', widget=forms.PasswordInput(attrs={'class': 'form-control', 'style': 'width: 300px;'}))
+    groups = forms.RadioSelect()
 
     class Meta:
         model = User
-        fields = ('username', 'email', 'first_name', 'last_name', 'password1', 'password2')
+        fields = ('username', 'email', 'first_name', 'groups', 'last_name', 'password1', 'password2')
 

@@ -20,8 +20,7 @@
 
 <body>
     <div class="container">
-        <ul
-            class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-2 border-bottom">
+        <ul class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-2 border-bottom">
             <div class="col-md-3 mb-2 mb-md-0">
                 <a href="{% url 'home' %}" class="d-inline-flex link-body-emphasis text-decoration-none">
                     <h4>GroupClasses</h4>
@@ -33,13 +32,29 @@
 
             {% if request.user.is_authenticated %}
                     <li><a href="{% url 'schedule' %}" class="nav-link px-2">Расписание</a></li>
-                    <li><a href="#" class="nav-link px-2">Мое расписание</a></li>
+                    <li><a href="{% url 'my_schedule' %}" class="nav-link px-2">Мое расписание</a></li>
+                {% if user.groups.all.0.id == 2 %}
                     <li><a href="{% url 'add_lesson' %}" class="nav-link px-2">Добавить занятие</a></li>
+                {% endif %}
+            </ul>
 
-                </ul>
+            <div class="col-md-3 d-flex justify-content-end">
+                 <div class="dropdown">
+                  <a href="#" class="d-flex align-items-center link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                      <button type="button" class="btn btn-outline-secondary me-2">Профиль</button>
+                  </a>
+                  <ul class="dropdown-menu text-small shadow " style="">
+                    <li class="dropdown-item">{{ user.first_name }} {{ user.last_name }}</li>
+                    <li class="dropdown-item">Логин: {{ user.username }}</li>
+                    <li class="dropdown-item">Роль: {{ user.groups.all.0 }}</li>
 
-             <div class="col-md-3 text-end">
-                <a href="{% url 'logout' %}"><button type="button" class="btn btn-outline-primary me-2">Выйти</button></a>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item " href="{% url 'logout' %}">Выйти</a></li>
+                  </ul>
+                </div>
+
+{#                <a href="{% url 'logout' %}"><button type="button" class="btn btn-outline-primary me-2">Выйти</button></a>#}
+
             </div>
             {% else %}
                 </ul>
@@ -58,30 +73,16 @@
     {% block footer %}
     <div class="container">
         <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
-            <!-- <img class="col-md-4 mb-0 text-body-secondary logo" src="logo.png" alt=""> -->
             <h4 class="col-md-4 mb-0">GroupClasses</h4>
 
-            <!-- <p class="col-md-4 mb-0 text-body-secondary">© 2023 Company, Inc</p> -->
-
-            <a href="/"
-                class="col-md-4 d-flex align-items-center justify-content-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
-                <svg class="bi me-2" width="40" height="32">
-                    <use xlink:href="#bootstrap"></use>
-                </svg>
-            </a>
-
             <ul class="nav col-md-4 justify-content-end">
-                <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Home</a></li>
-                <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Features</a></li>
-                <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Pricing</a></li>
-                <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">FAQs</a></li>
-                <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">About</a></li>
+                <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Главная</a></li>
+                <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Расписание</a></li>
+                <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Мое расписание</a></li>
             </ul>
         </footer>
     </div>
     {% endblock %}
-
-
 
 </body>
 

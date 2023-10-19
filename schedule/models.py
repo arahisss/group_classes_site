@@ -1,14 +1,5 @@
 from django.db import models
-from django.conf import settings
 from django.contrib.auth.models import User
-
-# будет таблица записей, где к id каждого юзера будет id занятия
-
-
-# class Profile(models.Model):
-#     user = models.OneToOneField(settings.AUTH_USER_MODEL)
-#     role = models.IntegerField(null=True, max_length=2, verbose_name='Роль')
-#
 
 
 class Lesson(models.Model):
@@ -16,12 +7,19 @@ class Lesson(models.Model):
     description = models.TextField(null=True, blank=True, verbose_name='Описание')
     time = models.TimeField(db_index=True, verbose_name='Время')
     data = models.DateField(db_index=True, verbose_name='Дата')
-    # teacher_id = models.IntegerField(null=True, verbose_name='id учителя')
-
     teacher_id = models.ForeignKey(User, null=True, on_delete=models.CASCADE, verbose_name='id учителя')
 
     class Meta:
         verbose_name_plural = 'Занятия'
         verbose_name = 'Занятие'
         ordering = ['-data']
+
+
+class LessonUser(models.Model):
+    user = models.ForeignKey(User, null=True, on_delete=models.CASCADE, verbose_name='Пользователь')
+    lesson = models.ForeignKey(Lesson, null=True, on_delete=models.CASCADE, verbose_name='Занятие')
+
+    class Meta:
+        verbose_name_plural = 'Пользователи-Занятия'
+        verbose_name = 'Пользователь-Занятие'
 

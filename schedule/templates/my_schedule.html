@@ -6,11 +6,7 @@
               <div class="modal-dialog">
                 <div class="modal-content">
                   <div class="modal-header">
-                    {% if user.groups.all.0.id == 1 %}
-                        <h4 class="modal-title" id="exampleModalLabel">Запись за занятие</h4>
-                    {% elif  user.groups.all.0.id == 2%}
-                        <h4 class="modal-title" id="exampleModalLabel">Подробности занятия</h4>
-                    {% endif %}
+                    <h4 class="modal-title" id="exampleModalLabel">Вы записаны на занятие</h4>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
                   </div>
                   <div class="modal-body">
@@ -28,12 +24,7 @@
                   </div>
                   <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
-                    {% if user.groups.all.0.id == 1 %}
-                      <a href="{% url 'my_schedule' %}">
-                          <button data-lesson="" type="button" class="btn btn-primary add_lesson_user_btn">Записаться</button>
-                      </a>
-                      {% csrf_token %}
-                    {% endif %}
+
                   </div>
                 </div>
               </div>
@@ -41,14 +32,16 @@
 
 
     <div class="container-fluid pt-5">
+        <h1 class="container display-6">Мое расписание</h1>
+
         <div id="carouselExample" class="carousel carousel-dark slide px-5">
-            <div class="carousel-inner ">
+            <div class="carousel-inner">
                 <div class="carousel-item active">
 
                     <div class="cards d-flex justify-content-space-between m-5">
                         {% for date in active %}
                         <div class="card m-1" style="width: 18rem;">
-                            <div class="card-header d-flex flex-column align-items-center bg-success-subtle">
+                            <div class="card-header d-flex flex-column align-items-center bg-info-subtle">
                                 {% if date.weekday == 0 %}
                                     <h5 class="card-title">Пн</h5>
                                 {% elif date.weekday == 1 %}
@@ -114,30 +107,6 @@
                   });
                 });
 
-                document.querySelector('.add_lesson_user_btn').addEventListener('click',
-                function() {
-                    this.setAttribute('data-lesson', value);
-                    let lesson = this.getAttribute('data-lesson');
-                    let csrf_token = document.querySelector('[name=csrfmiddlewaretoken]').value;
-
-                    let xhr = new XMLHttpRequest();
-                    xhr.open('POST', '/add_user_lesson/', true);
-                    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-                    xhr.setRequestHeader('X-CSRFToken', csrf_token);
-
-                    xhr.onreadystatechange = function() {
-                        if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
-                            // Запрос завершен успешно
-                            /* let response = JSON.parse(xhr.responseText)
-                            if (response.success) {
-                                alert('Запись добавлена');
-                            } else {
-                                alert('Ошибка');
-                            } */
-                        }
-                    };
-                    xhr.send('lesson=' + encodeURIComponent(lesson));
-                })
               });
 
             </script>
@@ -184,7 +153,7 @@
                 </div>
             </div>
 
-            <button class="car carousel-control-prev w-20" style="padding-right: 10%;" type="button" data-bs-target="#carouselExample"
+            <button class="car carousel-control-prev w-10" style="padding-right: 10%;" type="button" data-bs-target="#carouselExample"
                 data-bs-slide="prev">
                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                 <span class="visually-hidden">Previous</span>
