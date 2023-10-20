@@ -1,21 +1,14 @@
 from django.contrib.auth import logout, login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import LoginView
-from django.http import HttpResponseNotFound, HttpResponse
+from django.http import HttpResponseNotFound
 from django.shortcuts import render, redirect, get_object_or_404
-from django.template import loader
 from django.urls import reverse_lazy
-from django.views import View
-
 from .forms import *
 from .models import Lesson, LessonUser
 from django.views.generic.edit import CreateView
-from .forms import LessonForm
-from django.contrib import messages
-from .forms import LoginUserForm
 from datetime import datetime, timedelta
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.http import JsonResponse
 
 
 class AddLesson(LoginRequiredMixin, CreateView):
@@ -77,7 +70,6 @@ class ChangePassword(CreateView):
         user = form.save()
         login(self.request, user)
         return redirect('schedule')
-
 
 
 def delete_lesson(request):
