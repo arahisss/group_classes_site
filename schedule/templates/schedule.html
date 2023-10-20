@@ -2,45 +2,44 @@
 
 {% block content %}
 
-            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-              <div class="modal-dialog">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    {% if user.groups.all.0.id == 1 %}
-                        <h4 class="modal-title" id="exampleModalLabel">Запись за занятие</h4>
-                    {% elif  user.groups.all.0.id == 2%}
-                        <h4 class="modal-title" id="exampleModalLabel">Подробности занятия</h4>
-                    {% endif %}
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
-                  </div>
-                  <div class="modal-body">
-                    <h5 id="lesson-title"></h5>
-                    <p id="lesson-description"></p>
-                      <p><span><strong>Дата: </strong></span><span id="lesson-date"></span></p>
-                      <p><span><strong>Время: </strong></span><span id="lesson-time"></span></p>
-                    <p id="lesson-time"></p>
-                      <p>
-                          <span><strong>Учитель: </strong></span>
-                          <span id="lesson-first_name"></span>
-                        <span id="lesson-last_name"></span>
-                      </p>
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        {% if user.groups.all.0.id == 1 %}
+            <h4 class="modal-title" id="exampleModalLabel">Запись за занятие</h4>
+        {% elif  user.groups.all.0.id == 2%}
+            <h4 class="modal-title" id="exampleModalLabel">Подробности занятия</h4>
+        {% endif %}
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+      </div>
+      <div class="modal-body">
+        <h5 id="lesson-title"></h5>
+        <p id="lesson-description"></p>
+          <p><span><strong>Дата: </strong></span><span id="lesson-date"></span></p>
+          <p><span><strong>Время: </strong></span><span id="lesson-time"></span></p>
+        <p id="lesson-time"></p>
+          <p>
+              <span><strong>Учитель: </strong></span>
+              <span id="lesson-first_name"></span>
+            <span id="lesson-last_name"></span>
+          </p>
 
-                  </div>
-                  <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
-                    {% if user.groups.all.0.id == 1 %}
-                      <a href="{% url 'my_schedule' %}">
-                          <button data-lesson="" type="button" class="btn btn-primary add_lesson_user_btn">Записаться</button>
-                      </a>
-                      {% csrf_token %}
-                    {% endif %}
-                  </div>
-                </div>
-              </div>
-            </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+        {% if user.groups.all.0.id == 1 %}
+          <a href="{% url 'my_schedule' %}">
+              <button data-lesson="" type="button" class="btn btn-primary add_lesson_user_btn">Записаться</button>
+          </a>
+          {% csrf_token %}
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
 
-
-    <div class="container-fluid pt-5">
+    <div class="container-fluid pt-5 mb-5 pb-5">
         <div id="carouselExample" class="carousel carousel-dark slide px-5">
             <div class="carousel-inner ">
                 <div class="carousel-item active">
@@ -83,64 +82,6 @@
                     </div>
 
                 </div>
-
-            <script>
-              document.addEventListener('DOMContentLoaded', function() {
-                let lessonItems = document.querySelectorAll('.list-group-item');
-                let lessonTitle = document.getElementById('lesson-title');
-                let lessonDescription = document.getElementById('lesson-description');
-                let lessonDate = document.getElementById('lesson-date');
-                let lessonTime = document.getElementById('lesson-time');
-                let lessonFirstName = document.getElementById('lesson-first_name');
-                let lessonLastName = document.getElementById('lesson-last_name');
-
-                let value;
-                lessonItems.forEach(function(item) {
-                  item.addEventListener('click', function() {
-                    let title = this.getAttribute('data-lesson-title');
-                    let description = this.getAttribute('data-lesson-description');
-                    let date = this.getAttribute('data-lesson-date');
-                    let time = this.getAttribute('data-lesson-time');
-                    let first_name = this.getAttribute('data-lesson-first_name');
-                    let last_name = this.getAttribute('data-lesson-last_name');
-                    value = this.getAttribute('data-card_lesson');
-
-                    lessonTitle.textContent = title;
-                    lessonDescription.textContent = description
-                    lessonDate.textContent = date
-                    lessonTime.textContent = time
-                    lessonFirstName.textContent = first_name
-                    lessonLastName.textContent = last_name
-                  });
-                });
-
-                document.querySelector('.add_lesson_user_btn').addEventListener('click',
-                function() {
-                    this.setAttribute('data-lesson', value);
-                    let lesson = this.getAttribute('data-lesson');
-                    let csrf_token = document.querySelector('[name=csrfmiddlewaretoken]').value;
-
-                    let xhr = new XMLHttpRequest();
-                    xhr.open('POST', '/add_user_lesson/', true);
-                    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-                    xhr.setRequestHeader('X-CSRFToken', csrf_token);
-
-                    xhr.onreadystatechange = function() {
-                        if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
-                            // Запрос завершен успешно
-                            /* let response = JSON.parse(xhr.responseText)
-                            if (response.success) {
-                                alert('Запись добавлена');
-                            } else {
-                                alert('Ошибка');
-                            } */
-                        }
-                    };
-                    xhr.send('lesson=' + encodeURIComponent(lesson));
-                })
-              });
-
-            </script>
             {% for week in weeks %}
                 <div class="carousel-item">
 
@@ -173,15 +114,11 @@
                             </ul>
                         </div>
                         {% endfor %}
-
                     </div>
-
                 </div>
                 {% endfor %}
 
-                <div class="carousel-item">
-                    <img src="..." class="d-block w-100" alt="...">
-                </div>
+
             </div>
 
             <button class="car carousel-control-prev w-20" style="padding-right: 10%;" type="button" data-bs-target="#carouselExample"
@@ -195,4 +132,56 @@
             </button>
         </div>
     </div>
+
+ <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        let lessonItems = document.querySelectorAll('.list-group-item');
+        let lessonTitle = document.getElementById('lesson-title');
+        let lessonDescription = document.getElementById('lesson-description');
+        let lessonDate = document.getElementById('lesson-date');
+        let lessonTime = document.getElementById('lesson-time');
+        let lessonFirstName = document.getElementById('lesson-first_name');
+        let lessonLastName = document.getElementById('lesson-last_name');
+
+        let value;
+        lessonItems.forEach(function(item) {
+          item.addEventListener('click', function() {
+            let title = this.getAttribute('data-lesson-title');
+            let description = this.getAttribute('data-lesson-description');
+            let date = this.getAttribute('data-lesson-date');
+            let time = this.getAttribute('data-lesson-time');
+            let first_name = this.getAttribute('data-lesson-first_name');
+            let last_name = this.getAttribute('data-lesson-last_name');
+            value = this.getAttribute('data-card_lesson');
+
+            lessonTitle.textContent = title;
+            lessonDescription.textContent = description
+            lessonDate.textContent = date
+            lessonTime.textContent = time
+            lessonFirstName.textContent = first_name
+            lessonLastName.textContent = last_name
+          });
+        });
+
+        document.querySelector('.add_lesson_user_btn').addEventListener('click',
+        function() {
+            this.setAttribute('data-lesson', value);
+            let lesson = this.getAttribute('data-lesson');
+            let csrf_token = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+            let xhr = new XMLHttpRequest();
+            xhr.open('POST', '/add_user_lesson/', true);
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhr.setRequestHeader('X-CSRFToken', csrf_token);
+
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+                    // Запрос завершен успешно
+                }
+            };
+            xhr.send('lesson=' + encodeURIComponent(lesson));
+        })
+      });
+
+ </script>
 {% endblock %}

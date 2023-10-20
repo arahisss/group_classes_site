@@ -21,7 +21,7 @@ from django.http import JsonResponse
 class AddLesson(LoginRequiredMixin, CreateView):
     template_name = 'add_lesson.html'
     form_class = LessonForm
-    success_url = reverse_lazy('schedule')
+    success_url = reverse_lazy('my_schedule')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -30,14 +30,6 @@ class AddLesson(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         form.instance.teacher_id = self.request.user
         return super().form_valid(form)
-
-
-def index(request):
-    return render(request, "index.html")
-
-
-def signup(request):
-    return render(request, "register.html")
 
 
 class RegisterUser(CreateView):
@@ -70,6 +62,38 @@ class LoginUser(LoginView):
 def logout_user(request):
     logout(request)
     return redirect('login')
+
+
+class ChangePassword(CreateView):
+    form_class = ChangePasswordForm
+    template_name = 'change_password.html'
+    success_url = reverse_lazy('schedule')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
+
+    def form_valid(self, form):
+        user = form.save()
+        login(self.request, user)
+        return redirect('schedule')
+
+
+
+def delete_lesson(request):
+    lesson = request.POST.get('lesson')
+    print(lesson)
+    Lesson.objects.filter(id=lesson).delete()
+
+    return redirect('my_schedule')
+
+
+def index(request):
+    return render(request, "index.html")
+
+
+def signup(request):
+    return render(request, "register.html")
 
 
 def add_user_lesson(request):
@@ -147,7 +171,6 @@ def my_schedule(request):
     weeks.append(cur_week)
     active = weeks[0]
     del weeks[0]
-
     return render(request, 'my_schedule.html', {'lessons': lessons, 'weeks': weeks,
                                              'active': active, 'dates': sorted(dates)})
 

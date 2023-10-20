@@ -19,7 +19,16 @@
                 <h1 class="display-5 fw-bold">Запись на занятия</h1>
                 <p class="col-md-8 fs-4">На нашем сайте вы можете записаться на любое из доступных групповых занятий, а
                     также создавать расписание для проведения своих собственных занятий</p>
-                <button class="btn btn-primary btn-lg" type="button">Попробовать</button>
+
+                {% if request.user.is_authenticated %}
+                    <a href="{% url 'schedule' %}">
+                        <button class="btn btn-primary btn-lg" type="button">Попробовать</button>
+                    </a>
+                {% else %}
+                  <a href="{% url 'login' %}">
+                    <button class="btn btn-primary btn-lg" type="button">Попробовать</button>
+                  </a>
+                {% endif %}
             </div>
         </div>
     </div>

@@ -34,6 +34,17 @@ class LoginUserForm(AuthenticationForm):
         fields = ('username', 'email', 'password')
 
 
+class ChangePasswordForm(ModelForm):
+    password1 = forms.CharField(label='Введите новый пароль',
+                                widget=forms.PasswordInput(attrs={'class': 'form-control', 'style': 'width: 300px;'}))
+    password2 = forms.CharField(label='Повтор пароля',
+                                widget=forms.PasswordInput(attrs={'class': 'form-control', 'style': 'width: 300px;'}))
+
+    class Meta:
+        model = User
+        fields = ('password1', 'password2')
+
+
 class RegisterUserForm(UserCreationForm):
     username = forms.CharField(label='Логин', widget=forms.TextInput(attrs={'class': 'form-control', 'style': 'width: 300px;'}))
     email = forms.CharField(label='Email', widget=forms.TextInput(attrs={'class': 'form-control', 'style': 'width: 300px;'}))
@@ -41,9 +52,9 @@ class RegisterUserForm(UserCreationForm):
     last_name = forms.CharField(label='Фамилия', widget=forms.TextInput(attrs={'class': 'form-control', 'style': 'width: 300px;'}))
     password1 = forms.CharField(label='Пароль', widget=forms.PasswordInput(attrs={'class': 'form-control', 'style': 'width: 300px;'}))
     password2 = forms.CharField(label='Повтор пароля', widget=forms.PasswordInput(attrs={'class': 'form-control', 'style': 'width: 300px;'}))
-    groups = forms.RadioSelect()
+    groups = forms.ChoiceField(label='Роль', choices=[(1, 'Ученик'), (2, 'Учитель')], widget=forms.Select(attrs={'class': 'form-control', 'style': 'width: 300px;'}))
 
     class Meta:
         model = User
-        fields = ('username', 'email', 'first_name', 'groups', 'last_name', 'password1', 'password2')
+        fields = ('username', 'email', 'first_name', 'last_name', 'groups', 'password1', 'password2')
 
