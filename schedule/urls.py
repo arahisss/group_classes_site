@@ -27,9 +27,6 @@ urlpatterns = [
         template_name='password_confirmed.html'),
         name='password_reset_complete'),
 
-    path('change_password/', ChangePassword.as_view(), name='change_password'),
-    # path('change_password/', ChangePassword.as_view(), name='change_password'),
-
     path('schedule/', schedule, name='schedule'),
     path('add_lesson/', AddLesson.as_view(), name='add_lesson'),
     path('delete_lesson/', delete_lesson, name='delete_lesson'),

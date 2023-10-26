@@ -17,14 +17,6 @@ class LessonForm(ModelForm):
         fields = ('title', 'description', 'time', 'data')
 
 
-class LessonUserForm(ModelForm):
-    lesson = forms.CharField(label='Урок', widget=forms.TextInput(attrs={'class': 'form-control', 'style': 'width: 300px;', 'data-lesson': ''}))
-
-    class Meta:
-        model = LessonUser
-        fields = ('user', 'lesson',)
-
-
 class LoginUserForm(AuthenticationForm):
     username = forms.CharField(label='Имя пользователя', widget=forms.TextInput(attrs={'class': 'form-control', 'style': 'width: 300px;'}))
     password = forms.CharField(label='Пароль', widget=forms.PasswordInput(attrs={'class': 'form-control', 'style': 'width: 300px;'}))
@@ -32,17 +24,6 @@ class LoginUserForm(AuthenticationForm):
     class Meta:
         model = User
         fields = ('username', 'email', 'password')
-
-
-class ChangePasswordForm(ModelForm):
-    password1 = forms.CharField(label='Введите новый пароль',
-                                widget=forms.PasswordInput(attrs={'class': 'form-control', 'style': 'width: 300px;'}))
-    password2 = forms.CharField(label='Повтор пароля',
-                                widget=forms.PasswordInput(attrs={'class': 'form-control', 'style': 'width: 300px;'}))
-
-    class Meta:
-        model = User
-        fields = ('password1', 'password2')
 
 
 class RegisterUserForm(UserCreationForm):

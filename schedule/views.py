@@ -57,21 +57,6 @@ def logout_user(request):
     return redirect('login')
 
 
-class ChangePassword(CreateView):
-    form_class = ChangePasswordForm
-    template_name = 'change_password.html'
-    success_url = reverse_lazy('schedule')
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        return context
-
-    def form_valid(self, form):
-        user = form.save()
-        login(self.request, user)
-        return redirect('schedule')
-
-
 def delete_lesson(request):
     lesson = request.POST.get('lesson')
     print(lesson)
